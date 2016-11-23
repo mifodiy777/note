@@ -1,0 +1,56 @@
+group 'ru.innopolis'
+version '1.0'
+
+apply plugin: 'war'
+
+sourceCompatibility = 1.8
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+        resources {
+            srcDirs = ['src/main/resources']
+        }
+    }
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile "jstl:jstl:1.1.2";
+    compile "org.slf4j:slf4j-api:1.7.21";
+    compile "org.slf4j:slf4j-log4j12:1.7.21";
+    compile "javax.transaction:transaction-api:1.1";
+    compile "com.google.code.gson:gson:2.7";
+    compile group: 'javax.servlet', name: 'servlet-api', version: '2.5';
+    compile "mysql:mysql-connector-java:5.1.40";
+    compile "org.apache.taglibs:taglibs-standard-jstlel:1.2.5";
+    compile "org.springframework:spring-context:4.3.2.RELEASE";
+    compile "org.springframework:spring-webmvc:4.3.2.RELEASE";
+    compile "org.springframework:spring-tx:4.3.2.RELEASE";
+    compile "org.springframework:spring-orm:4.3.2.RELEASE";
+    compile "org.springframework.security:spring-security-core:3.2.5.RELEASE";
+    compile "org.springframework.security:spring-security-web:3.2.5.RELEASE";
+    compile "org.springframework.security:spring-security-config:3.2.5.RELEASE";
+    compile "org.springframework.security:spring-security-taglibs:3.2.5.RELEASE";
+    compile "javax.transaction:transaction-api:1.1";
+    compile "javax.transaction:jta:1.1";
+    compile "org.hibernate:hibernate-core:4.3.5.Final"
+    compile "org.apache.commons:commons-dbcp2:2.0"
+    compile 'org.apache.ignite:ignite-core:1.7.0'
+    compile 'org.apache.ignite:ignite-spring:1.7.0'
+    compile 'org.apache.ignite:ignite-indexing:1.7.0'
+    compile "org.apache.ignite:ignite-hibernate:1.0.0"
+}
+
