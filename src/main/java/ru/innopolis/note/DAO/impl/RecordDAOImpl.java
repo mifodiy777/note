@@ -24,8 +24,9 @@ public class RecordDAOImpl implements RecordDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
-/*    @Autowired
-    private IgniteConfiguration igniteCfg;*/
+    public RecordDAOImpl() {
+        Ignition.start("ignite-context.xml");
+    }
 
     @Override
     public Record findOne(Integer id) {
@@ -37,6 +38,7 @@ public class RecordDAOImpl implements RecordDAO {
     public List<Record> findByUser(String username) {
         Session session = sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Record.class);
+        criteria.setCacheable(true);
         List<Record> records = (List<Record>) criteria.list();
         return records;
     }

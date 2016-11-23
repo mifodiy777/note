@@ -9,18 +9,18 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <bean class="org.apache.ignite.configuration.IgniteConfiguration">
+        <property name="marshaller">
+            <bean class="org.apache.ignite.marshaller.optimized.OptimizedMarshaller"/>
+        </property>
+    </bean>
+
     <bean name="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://127.0.0.1:3306/note?useSSL=false"/>
         <property name="username" value="root"/>
         <property name="password" value="root"/>
     </bean>
-
-    <!--<bean class="org.apache.ignite.configuration.IgniteConfiguration">
-        <property name="marshaller">
-            <bean class="org.apache.ignite.marshaller.optimized.OptimizedMarshaller"/>
-        </property>
-    </bean>-->
 
     <bean id="recordDAO" class="ru.innopolis.note.DAO.impl.RecordDAOImpl"/>
 
@@ -34,76 +34,9 @@
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan">
-            <list>
-                <value>ru.innopolis.note.entity</value>
-            </list>
-        </property>
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
-            </props>
-        </property>
-        <!--<property name="configLocation" value="classpath:hibernate.cfg.xml"/>
-        <property name="packagesToScan" value="ru.innopolis.note.entity"/>-->
-
+        <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+        <property name="packagesToScan" value="ru.innopolis.note.entity"/>
     </bean>
-
-    <!--<bean id="atomic-cache" class="org.apache.ignite.configuration.CacheConfiguration" abstract="true">
-        <property name="cacheMode" value="PARTITIONED"/>
-        <property name="atomicityMode" value="ATOMIC"/>
-        <property name="writeSynchronizationMode" value="FULL_SYNC"/>
-    </bean>
-
-    &lt;!&ndash; Basic configuration for transactional cache. &ndash;&gt;
-    <bean id="transactional-cache" class="org.apache.ignite.configuration.CacheConfiguration" abstract="true">
-        <property name="cacheMode" value="PARTITIONED"/>
-        <property name="atomicityMode" value="TRANSACTIONAL"/>
-        <property name="writeSynchronizationMode" value="FULL_SYNC"/>
-    </bean>
-
-    <bean id="igniteCfg" class="org.apache.ignite.configuration.IgniteConfiguration">
-        <property name="gridName" value="hibernate-grid"/>
-        &lt;!&ndash; Enable client mode. &ndash;&gt;
-        <property name="clientMode" value="true"/>
-
-        <property name="cacheConfiguration">
-            <list>
-                <bean parent="transactional-cache">
-                    <property name="name" value="ru.innopolis.note.entity.Record"/>
-                </bean>
-                &lt;!&ndash; Configuration for update timestamps cache. &ndash;&gt;
-                <bean parent="atomic-cache">
-                    <property name="name" value="org.hibernate.cache.spi.UpdateTimestampsCache"/>
-                </bean>
-
-                &lt;!&ndash; Configuration for query result cache. &ndash;&gt;
-                <bean parent="atomic-cache">
-                    <property name="name" value="org.hibernate.cache.internal.StandardQueryCache"/>
-                </bean>
-            </list>
-        </property>
-        &lt;!&ndash; Explicitly configure TCP discovery SPI to provide list of initial nodes. &ndash;&gt;
-        <property name="discoverySpi">
-            <bean class="org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi">
-                <property name="ipFinder">
-                    &lt;!&ndash; Uncomment static IP finder to enable static-based discovery of initial nodes. &ndash;&gt;
-                    &lt;!&ndash;<bean class="org.apache.ignite.spi.discovery.tcp.ipfinder.vm.TcpDiscoveryVmIpFinder">&ndash;&gt;
-                    <bean class="org.apache.ignite.spi.discovery.tcp.ipfinder.multicast.TcpDiscoveryMulticastIpFinder">
-                        <property name="addresses">
-                            <list>
-                                &lt;!&ndash; In distributed environment, replace with actual host IP address. &ndash;&gt;
-                                <value>Add your node ip address</value>
-                                <value>add your node ip address</value>
-                            </list>
-                        </property>
-                    </bean>
-                </property>
-            </bean>
-        </property>
-    </bean>-->
 
     <context:annotation-config/>
 

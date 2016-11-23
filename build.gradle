@@ -24,6 +24,9 @@ tasks.withType(JavaCompile) {
 
 repositories {
     mavenCentral()
+    maven {
+        url "http://www.gridgainsystems.com/nexus/content/repositories/external/"
+    }
 }
 
 dependencies {
@@ -51,6 +54,6 @@ dependencies {
     compile 'org.apache.ignite:ignite-core:1.7.0'
     compile 'org.apache.ignite:ignite-spring:1.7.0'
     compile 'org.apache.ignite:ignite-indexing:1.7.0'
-    compile "org.apache.ignite:ignite-hibernate:1.0.0"
+    compile "org.apache.ignite:ignite-hibernate:1.7.0"
 }
 
