@@ -24,13 +24,11 @@ public class RecordDAOImpl implements RecordDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public RecordDAOImpl() {
-        Ignition.start("ignite-context.xml");
-    }
-
     @Override
+    @Transactional
     public Record findOne(Integer id) {
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        return (Record) session.get(Record.class, id);
     }
 
     @Override
@@ -44,12 +42,16 @@ public class RecordDAOImpl implements RecordDAO {
     }
 
     @Override
+    @Transactional
     public Record save(Record record) {
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        return (Record) session.merge(record);
     }
 
     @Override
+    @Transactional
     public void delete(Integer id) {
-
+        Session session = sessionFactory.getCurrentSession();
+        session.delete(session.get(Record.class, id));
     }
 }
